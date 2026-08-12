@@ -1,0 +1,682 @@
+<title>8月の締切ボード</title>
+<style>
+  :root {
+    --paper:      #F4F6F8;
+    --surface:    #FFFFFF;
+    --surface-2:  #EDF0F4;
+    --ink:        #15181F;
+    --ink-2:      #4A5262;
+    --ink-3:      #79818F;
+    --line:       #DCE1E8;
+    --line-soft:  #E7EBF0;
+    --accent:     #2E4A8F;
+    --accent-2:   #5C77BE;
+    --urgent:     #A93520;
+    --warn:       #8C6410;
+    --calm:       #2C6350;
+    --urgent-bg:  #F6E7E3;
+    --warn-bg:    #F5EEDD;
+    --calm-bg:    #E3EDE8;
+    --shadow:     0 1px 2px rgba(21,24,31,.05), 0 8px 24px -16px rgba(21,24,31,.28);
+
+    --font-display: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", "Songti SC", serif;
+    --font-body: "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, "Noto Sans JP", system-ui, -apple-system, sans-serif;
+    --font-num: ui-monospace, SFMono-Regular, Menlo, "Roboto Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #14161B;
+      --surface:    #1B1E25;
+      --surface-2:  #232733;
+      --ink:        #E8EAEF;
+      --ink-2:      #A9B0BE;
+      --ink-3:      #7B8393;
+      --line:       #2E333F;
+      --line-soft:  #262B35;
+      --accent:     #93AAE6;
+      --accent-2:   #6E88C9;
+      --urgent:     #E88E78;
+      --warn:       #DCAE55;
+      --calm:       #77BFA1;
+      --urgent-bg:  #33221E;
+      --warn-bg:    #2E2718;
+      --calm-bg:    #1B2A25;
+      --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #14161B;
+    --surface:    #1B1E25;
+    --surface-2:  #232733;
+    --ink:        #E8EAEF;
+    --ink-2:      #A9B0BE;
+    --ink-3:      #7B8393;
+    --line:       #2E333F;
+    --line-soft:  #262B35;
+    --accent:     #93AAE6;
+    --accent-2:   #6E88C9;
+    --urgent:     #E88E78;
+    --warn:       #DCAE55;
+    --calm:       #77BFA1;
+    --urgent-bg:  #33221E;
+    --warn-bg:    #2E2718;
+    --calm-bg:    #1B2A25;
+    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: clamp(1.75rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2rem) 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  /* ---------- header ---------- */
+  .masthead { display: flex; flex-direction: column; gap: .75rem; }
+
+  .eyebrow {
+    font-family: var(--font-num);
+    font-size: .75rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: .02em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .lede { color: var(--ink-2); margin: 0; max-width: 42em; }
+
+  .meters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: .5rem;
+  }
+  .meter { background: var(--surface); padding: 1rem 1.15rem; display: flex; flex-direction: column; gap: .2rem; }
+  .meter dt { font-size: .75rem; letter-spacing: .08em; color: var(--ink-3); }
+  .meter dd {
+    margin: 0;
+    font-family: var(--font-num);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.6rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .meter dd small { font-family: var(--font-body); font-size: .8rem; color: var(--ink-2); margin-left: .35rem; }
+  .meter.is-urgent dd { color: var(--urgent); }
+
+  /* ---------- section shell ---------- */
+  section { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    margin: 0;
+    padding-bottom: .6rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: baseline;
+    gap: .8rem;
+  }
+  h2 span { font-family: var(--font-body); font-size: .8rem; font-weight: 400; color: var(--ink-3); letter-spacing: 0; }
+
+  /* ---------- deadline groups ---------- */
+  .groups { display: flex; flex-direction: column; gap: 1.1rem; }
+
+  .group {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--tone);
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .group[data-tone="urgent"] { --tone: var(--urgent); --tone-bg: var(--urgent-bg); }
+  .group[data-tone="warn"]   { --tone: var(--warn);   --tone-bg: var(--warn-bg); }
+  .group[data-tone="calm"]   { --tone: var(--calm);   --tone-bg: var(--calm-bg); }
+
+  .group-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .35rem .9rem;
+    padding: .85rem 1.15rem;
+    background: var(--tone-bg);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .date {
+    font-family: var(--font-num);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--tone);
+    letter-spacing: .01em;
+  }
+  .dow { font-size: .8rem; color: var(--ink-2); }
+  .left {
+    margin-left: auto;
+    font-size: .8rem;
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .left b { font-family: var(--font-num); color: var(--tone); font-size: 1rem; }
+
+  ul.tasks { list-style: none; margin: 0; padding: 0; }
+
+  li.task {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: .3rem .8rem;
+    padding: .85rem 1.15rem;
+    border-top: 1px solid var(--line-soft);
+    align-items: start;
+  }
+  li.task:first-child { border-top: 0; }
+
+  .check {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.05rem; height: 1.05rem;
+    margin: .35rem 0 0;
+    border: 1.5px solid var(--ink-3);
+    border-radius: 2px;
+    background: transparent;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    flex: none;
+  }
+  .check::after {
+    content: "";
+    width: .55rem; height: .3rem;
+    border-left: 2px solid var(--surface);
+    border-bottom: 2px solid var(--surface);
+    transform: rotate(-45deg) translateY(-1px);
+    opacity: 0;
+  }
+  .check:checked { background: var(--accent); border-color: var(--accent); }
+  .check:checked::after { opacity: 1; }
+  .check:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .no {
+    font-family: var(--font-num);
+    font-size: .95rem;
+    color: var(--ink-3);
+    padding-top: .1rem;
+  }
+  .body { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+  .name { font-weight: 700; letter-spacing: .01em; }
+  .note { font-size: .85rem; color: var(--ink-2); }
+  .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .25rem; }
+  .tag {
+    font-size: .7rem;
+    letter-spacing: .06em;
+    padding: .12rem .5rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-2);
+    background: var(--surface-2);
+    white-space: nowrap;
+  }
+  .tag.flag { color: var(--urgent); border-color: var(--urgent); background: transparent; }
+
+  li.task:has(.check:checked) .name { text-decoration: line-through; text-decoration-thickness: 1px; }
+  li.task:has(.check:checked) { opacity: .5; }
+
+  /* ---------- schedule ---------- */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 40rem; }
+  th, td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--line-soft); vertical-align: top; font-size: .9rem; }
+  thead th {
+    font-size: .72rem; letter-spacing: .1em; color: var(--ink-3); font-weight: 400;
+    background: var(--surface-2); border-bottom: 1px solid var(--line);
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.day {
+    font-family: var(--font-num); font-variant-numeric: tabular-nums;
+    white-space: nowrap; color: var(--ink); font-weight: 700;
+  }
+  td.day em { display: block; font-style: normal; font-family: var(--font-body); font-size: .72rem; font-weight: 400; color: var(--ink-3); }
+  tr.is-due td.day { color: var(--urgent); }
+  tr.is-due { background: var(--urgent-bg); }
+  td.slot { color: var(--ink-3); font-size: .75rem; letter-spacing: .08em; white-space: nowrap; }
+  .ref { font-family: var(--font-num); color: var(--accent); }
+
+  /* ---------- notes ---------- */
+  ol.notes { margin: 0; padding: 0; list-style: none; counter-reset: n; display: flex; flex-direction: column; gap: .9rem; }
+  ol.notes li {
+    counter-increment: n;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .9rem;
+    padding-bottom: .9rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  ol.notes li:last-child { border-bottom: 0; padding-bottom: 0; }
+  ol.notes li::before {
+    content: counter(n);
+    font-family: var(--font-num);
+    font-size: .8rem;
+    color: var(--accent);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    width: 1.6rem; height: 1.6rem;
+    display: grid; place-content: center;
+    margin-top: .2rem;
+  }
+  ol.notes strong { color: var(--ink); }
+  ol.notes p { margin: 0; color: var(--ink-2); font-size: .92rem; }
+  ol.notes p:first-of-type { color: var(--ink); }
+
+  footer {
+    font-size: .8rem;
+    color: var(--ink-3);
+    border-top: 1px solid var(--line);
+    padding-top: 1.25rem;
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">2026 / 08 &nbsp;·&nbsp; 起点 8月11日（火）</p>
+    <h1>8月の締切ボード</h1>
+    <p class="lede">12件のタスクを締切日ごとに並べ、事務局や運送・相手の返信といった「自分では動かせない時間」から逆算した作業順を添えました。チェックは同じブラウザで開く限り残ります。</p>
+
+    <dl class="meters">
+      <div class="meter"><dt>タスク</dt><dd>12<small>件</small></dd></div>
+      <div class="meter is-urgent"><dt>直近の締切</dt><dd>8/16<small>残り5日</small></dd></div>
+      <div class="meter is-urgent"><dt>8月17日に集中</dt><dd>6<small>件</small></dd></div>
+      <div class="meter"><dt>8月中に完了</dt><dd>11<small>件 / 12件</small></dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <h2>締切マップ<span>締切日ごと・近い順</span></h2>
+
+    <div class="groups">
+
+      <article class="group" data-tone="urgent">
+        <div class="group-head">
+          <span class="date">8/16</span><span class="dow">日曜</span>
+          <span class="left">残り <b>5</b> 日</span>
+        </div>
+        <ul class="tasks">
+          <li class="task">
+            <input class="check" type="checkbox" id="t9" aria-label="滋賀大学公募 完了">
+            <span class="no">⑨</span>
+            <div class="body">
+              <label class="name" for="t9">滋賀大学 公募</label>
+              <span class="note">日曜締切のため、郵送・窓口提出なら実質の期限は 8/14（金）。まず「必着か消印有効か」「電子か郵送か」を確認して、実質期限を確定させる。</span>
+              <div class="tags"><span class="tag">キャリア</span><span class="tag flag">提出方法の確認が先</span></div>
+            </div>
+          </li>
+        </ul>
+      </article>
+
+      <article class="group" data-tone="urgent">
+        <div class="group-head">
+          <span class="date">8/17</span><span class="dow">月曜</span>
+          <span class="left">残り <b>6</b> 日 ／ 6件</span>
+        </div>
+        <ul class="tasks">
+          <li class="task">
+            <input class="check" type="checkbox" id="t10" aria-label="アポ取り 完了">
+            <span class="no">⑩</span>
+            <div class="body">
+              <label class="name" for="t10">アポ取り</label>
+              <span class="note">相手の返信待ちが発生するので、着手を今日にするかどうかで結果が変わる唯一のタスク。依頼メールは本日中に全件送る。</span>
+              <div class="tags"><span class="tag">連絡</span><span class="tag flag">最優先で着手</span></div>
+            </div>
+          </li>
+          <li class="task">
+            <input class="check" type="checkbox" id="t1" aria-label="erses登録・研究費申請 完了">
+            <span class="no">①</span>
+            <div class="body">
+              <label class="name" for="t1">erses の登録・研究費申請</label>
+              <span class="note">事務局の処理が挟まるなら、盆前の営業日（8/12・8/14 想定）に出し切る。登録と申請で締切が別なら早い方に合わせる。</span>
+              <div class="tags"><span class="tag">研究</span><span class="tag">事務局あり</span></div>
+            </div>
+          </li>
+          <li class="task">
+            <input class="check" type="checkbox" id="t4" aria-label="スーツケース関空送付 完了">
+            <span class="no">④</span>
+            <div class="body">
+              <label class="name" for="t4">スーツケース 関空送付</label>
+              <span class="note">盆期間は輸送が遅れやすい。8/12 発送で 8/17 着の余裕を取る。空港受取は保管期間と受取カウンターの営業時間も合わせて確認。</span>
+              <div class="tags"><span class="tag">移動準備</span><span class="tag flag">輸送日数の余裕を取る</span></div>
+            </div>
+          </li>
+          <li class="task">
+            <input class="check" type="checkbox" id="t6" aria-label="EU経済論・専門英語 成績評価 完了">
+            <span class="no">⑥</span>
+            <div class="body">
+              <label class="name" for="t6">EU経済論・専門英語 成績評価</label>
+              <span class="note">2科目まとめて一気に入力・確定。判断より作業の比重が大きいので、頭が重い日の午後に置いてよい。</span>
+              <div class="tags"><span class="tag">教育</span><span class="tag">システム入力</span></div>
+            </div>
+          </li>
+          <li class="task">
+            <input class="check" type="checkbox" id="t3" aria-label="espanet完成 完了">
+            <span class="no">③</span>
+            <div class="body">
+              <label class="name" for="t3">espanet 完成</label>
+              <span class="note">まとまった時間が要る集中作業。8/15–8/16 を丸ごと充てる。締切前日に「完成」を置き、8/17 は確認のみに残す。</span>
+              <div class="tags"><span class="tag">研究</span><span class="tag">集中作業</span></div>
+            </div>
+          </li>
+          <li class="task">
+            <input class="check" type="checkbox" id="t2" aria-label="科研費申請書下書き 完了">
+            <span class="no">②</span>
+            <div class="body">
+              <label class="name" for="t2">科研費 申請書 下書き</label>
+              <span class="note">下書きなので完成度より通し。8/14 に骨子（見出しレベル）を先に立て、8/16–8/17 で本文を埋める二段構えにする。</span>
+              <div class="tags"><span class="tag">研究</span><span class="tag">集中作業</span></div>
+            </div>
+          </li>
+        </ul>
+      </article>
+
+      <article class="group" data-tone="warn">
+        <div class="group-head">
+          <span class="date">8/19</span><span class="dow">水曜</span>
+          <span class="left">残り <b>8</b> 日 ／ 2件</span>
+        </div>
+        <ul class="tasks">
+          <li class="task">
+            <input class="check" type="checkbox" id="t5" aria-label="広島市立大学模擬講義 完了">
+            <span class="no">⑤</span>
+            <div class="body">
+              <label class="name" for="t5">広島市立大学 模擬講義 完成</label>
+              <span class="note">⑧と同時期・同形式。共通コアを1本作り、各大学の受講層に合わせて導入と事例だけ差し替える。</span>
+              <div class="tags"><span class="tag">教育</span><span class="tag">⑧とセット</span></div>
+            </div>
+          </li>
+          <li class="task">
+            <input class="check" type="checkbox" id="t8" aria-label="尾道市立大学模擬講義 完了">
+            <span class="no">⑧</span>
+            <div class="body">
+              <label class="name" for="t8">尾道市立大学 模擬講義 完成</label>
+              <span class="note">⑤の展開版。2本を別々に作らず、8/18 にコア、8/19 に差分という順にすると作業量が約1.5本分に収まる。</span>
+              <div class="tags"><span class="tag">教育</span><span class="tag">⑤とセット</span></div>
+            </div>
+          </li>
+        </ul>
+      </article>
+
+      <article class="group" data-tone="calm">
+        <div class="group-head">
+          <span class="date">8/28</span><span class="dow">金曜</span>
+          <span class="left">残り <b>17</b> 日</span>
+        </div>
+        <ul class="tasks">
+          <li class="task">
+            <input class="check" type="checkbox" id="t7" aria-label="広島修道大学成績評価 完了">
+            <span class="no">⑦</span>
+            <div class="body">
+              <label class="name" for="t7">広島修道大学 成績評価</label>
+              <span class="note">⑥と同じ作業。前半戦が終わった 8/26–8/27 に置く。締切当日を提出日にせず、前日に確定させる。</span>
+              <div class="tags"><span class="tag">教育</span><span class="tag">システム入力</span></div>
+            </div>
+          </li>
+        </ul>
+      </article>
+
+      <article class="group" data-tone="calm">
+        <div class="group-head">
+          <span class="date">8/29</span><span class="dow">土曜</span>
+          <span class="left">残り <b>18</b> 日</span>
+        </div>
+        <ul class="tasks">
+          <li class="task">
+            <input class="check" type="checkbox" id="t11" aria-label="北ヨーロッパ学会報告要旨 完了">
+            <span class="no">⑪</span>
+            <div class="body">
+              <label class="name" for="t11">北ヨーロッパ学会 報告要旨 作成</label>
+              <span class="note">8/22 に骨子、8/25 に初稿、8/27 に推敲。⑫と扱う素材が重なるなら、この段階で資料を一緒に集めておくと9月が軽くなる。</span>
+              <div class="tags"><span class="tag">研究</span><span class="tag">⑫と素材共有</span></div>
+            </div>
+          </li>
+        </ul>
+      </article>
+
+      <article class="group" data-tone="calm">
+        <div class="group-head">
+          <span class="date">9/30</span><span class="dow">水曜</span>
+          <span class="left">残り <b>50</b> 日</span>
+        </div>
+        <ul class="tasks">
+          <li class="task">
+            <input class="check" type="checkbox" id="t12" aria-label="JFM報告書まとめ 完了">
+            <span class="no">⑫</span>
+            <div class="body">
+              <label class="name" for="t12">JFM 報告書まとめ</label>
+              <span class="note">8月中の着手は不要。9/7 に目次確定、9/18 に初稿、9/25 に見直し、9/30 提出。8月に手を出すと前半戦を圧迫する。</span>
+              <div class="tags"><span class="tag">研究</span><span class="tag">9月着手</span></div>
+            </div>
+          </li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>推奨スケジュール<span>8月11日 → 8月19日</span></h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>日付</th><th>時間帯</th><th>作業</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="day" rowspan="2">8/11<em>火・山の日</em></td>
+            <td class="slot">日中</td>
+            <td><span class="ref">⑩</span> アポ依頼メールを全件送信（返信待ちの時間を今日から確保する）</td>
+          </tr>
+          <tr>
+            <td class="slot">夜</td>
+            <td><span class="ref">④</span> 集荷をWebで予約 ／ <span class="ref">⑨</span> 募集要項を読み直し、必要書類のチェックリストと提出方法を確定</td>
+          </tr>
+          <tr>
+            <td class="day" rowspan="2">8/12<em>水</em></td>
+            <td class="slot">午前</td>
+            <td><span class="ref">①</span> erses の登録と研究費申請（事務局を通す書類はこの日に出し切る）</td>
+          </tr>
+          <tr>
+            <td class="slot">午後</td>
+            <td><span class="ref">④</span> スーツケース発送 ／ <span class="ref">⑥</span> 成績評価の入力を開始</td>
+          </tr>
+          <tr>
+            <td class="day" rowspan="2">8/13<em>木</em></td>
+            <td class="slot">午前</td>
+            <td><span class="ref">⑥</span> EU経済論・専門英語の成績を確定して提出</td>
+          </tr>
+          <tr>
+            <td class="slot">午後</td>
+            <td><span class="ref">⑨</span> 応募書類の作成（業績一覧・所信の更新）</td>
+          </tr>
+          <tr>
+            <td class="day" rowspan="2">8/14<em>金・盆前最終営業日</em></td>
+            <td class="slot">午前</td>
+            <td><span class="ref">⑨</span> 完成・提出（郵送や窓口ならこの日が実質の最終日）</td>
+          </tr>
+          <tr>
+            <td class="slot">午後</td>
+            <td><span class="ref">②</span> 科研費の骨子づくり（研究目的・計画を見出しレベルまで）</td>
+          </tr>
+          <tr>
+            <td class="day">8/15<em>土</em></td>
+            <td class="slot">終日</td>
+            <td><span class="ref">③</span> espanet 集中作業（未完部分を埋める）</td>
+          </tr>
+          <tr class="is-due">
+            <td class="day" rowspan="2">8/16<em>日 ← ⑨締切</em></td>
+            <td class="slot">午前</td>
+            <td><span class="ref">③</span> espanet 完成</td>
+          </tr>
+          <tr class="is-due">
+            <td class="slot">午後</td>
+            <td><span class="ref">②</span> 科研費 下書き 前半</td>
+          </tr>
+          <tr class="is-due">
+            <td class="day" rowspan="2">8/17<em>月 ← ①②③④⑥⑩締切</em></td>
+            <td class="slot">午前</td>
+            <td><span class="ref">②</span> 科研費 下書き 完成</td>
+          </tr>
+          <tr class="is-due">
+            <td class="slot">午後</td>
+            <td>締切6件の提出状況を点検 ／ <span class="ref">⑩</span> 返信のフォロー</td>
+          </tr>
+          <tr>
+            <td class="day" rowspan="2">8/18<em>火</em></td>
+            <td class="slot">午前</td>
+            <td><span class="ref">⑤⑧</span> 模擬講義の共通コア（構成とスライドの骨格）</td>
+          </tr>
+          <tr>
+            <td class="slot">午後</td>
+            <td><span class="ref">⑤</span> 広島市立大学向けに展開</td>
+          </tr>
+          <tr class="is-due">
+            <td class="day" rowspan="2">8/19<em>水 ← ⑤⑧締切</em></td>
+            <td class="slot">午前</td>
+            <td><span class="ref">⑧</span> 尾道市立大学向けに展開</td>
+          </tr>
+          <tr class="is-due">
+            <td class="slot">午後</td>
+            <td>2本の通し確認・完成</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>期間</th><th></th><th>作業</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="day">8/20–8/25<em>木–火</em></td>
+            <td class="slot">後半戦</td>
+            <td><span class="ref">⑪</span> 8/22 骨子 → 8/25 初稿</td>
+          </tr>
+          <tr>
+            <td class="day">8/26–8/27<em>水–木</em></td>
+            <td class="slot">後半戦</td>
+            <td><span class="ref">⑦</span> 修道大の成績入力・確定 ／ <span class="ref">⑪</span> 推敲</td>
+          </tr>
+          <tr class="is-due">
+            <td class="day">8/28<em>金</em></td>
+            <td class="slot">締切</td>
+            <td><span class="ref">⑦</span> 提出</td>
+          </tr>
+          <tr class="is-due">
+            <td class="day">8/29<em>土</em></td>
+            <td class="slot">締切</td>
+            <td><span class="ref">⑪</span> 提出</td>
+          </tr>
+          <tr>
+            <td class="day">9/1–9/30<em>9月</em></td>
+            <td class="slot">9月</td>
+            <td><span class="ref">⑫</span> 9/7 目次確定 → 9/18 初稿 → 9/25 見直し → 9/30 提出</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>見落としやすい点<span>順番を決めた理由</span></h2>
+    <ol class="notes">
+      <li>
+        <div>
+          <p><strong>暦が今週の作業日を削っている。</strong></p>
+          <p>8/11（火）は山の日、8/13–8/16 は盆にあたります。大学事務が一斉休業に入る場合、盆前に動ける営業日は 8/12 と 8/14 の2日だけです。事務局を通す①④⑨をこの2日に寄せているのはそのためで、休業日程はご自身の所属・提出先で要確認です。</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p><strong>⑨の実質期限は8/16ではない可能性が高い。</strong></p>
+          <p>締切が日曜なので、郵送必着なら 8/14（金）、消印有効なら 8/15（土）、電子提出なら 8/16 当日まで。ここが2日ずれると前半戦の組み方が変わるので、最初に確認する価値があります。</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p><strong>⑩だけは着手日が結果を決める。</strong></p>
+          <p>他の11件は自分の作業時間で終わりますが、アポは相手の返信が要ります。今日送れば盆前に返事が来る可能性が残り、8/17 に送れば締切には間に合いません。</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p><strong>⑤と⑧は2本ではなく1.5本。</strong></p>
+          <p>同じ締切・同じ形式の模擬講義なので、共通コアを作ってから大学ごとに導入と事例を差し替えます。逆に、別々に作り始めると 8/18–8/19 の2日では収まりません。</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p><strong>8/17 に6件が並ぶが、実際の負荷は②と③に集中している。</strong></p>
+          <p>6件のうち①④⑥⑩は手続き・入力・連絡で、時間は読めます。読めないのは②科研費下書きと③espanet の2件だけなので、この2件に 8/15–8/17 の三日を確保し、他は盆前に前倒しています。</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p><strong>⑫は8月に触らない。</strong></p>
+          <p>9/30 締切で、8月に着手しても前半戦を圧迫するだけです。ただし⑪の要旨と扱う素材が重なるなら、8月下旬に資料だけ共通で集めておくと9月の作業が軽くなります。</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <footer>
+    タスクの並びと内容はいただいた12件のとおりで、追加・削除はしていません。日付・曜日は2026年で計算しています。事務局の休業日程と⑨の提出方法は未確認のため、確定後にスケジュールを詰め直せます。
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var KEY = "tasks-2026-08";
+    var boxes = document.querySelectorAll(".check");
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { saved = {}; }
+
+    boxes.forEach(function (box) {
+      if (saved[box.id]) { box.checked = true; }
+      box.addEventListener("change", function () {
+        saved[box.id] = box.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      });
+    });
+  })();
+</script>
