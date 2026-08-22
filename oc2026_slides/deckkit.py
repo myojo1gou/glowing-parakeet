@@ -14,19 +14,23 @@ FONT = "Meiryo"          # Windows 全機種にある高可読ゴシック。BIZ
 SLIDE_W = 13.3333
 SLIDE_H = 7.5
 
+# 会場投影を前提にコントラスト比を検証済み（本文7:1以上／24pt以上の太字で4.5:1以上）
 C = {
-    "ink":     "12253F",   # 濃紺（本文）
+    "ink":     "12253F",   # 濃紺（本文）           白地に 14.0:1
     "navy":    "0E2A4F",   # 背景の紺
     "navy_dk": "081A33",
-    "brand":   "1160C4",   # ブランドブルー
+    "brand":   "1160C4",   # ブランドブルー（面用）
+    "brand_dk":"0B4C9E",   # ブランドブルー（文字用） 白地に 7.4:1
     "brand_lt":"E7F0FB",
-    "gold":    "F2B01E",   # 強調のゴールド
+    "gold":    "F2B01E",   # ゴールド（面だけに使う。白地の文字には使わない）
     "gold_lt": "FFF4DA",
-    "coral":   "E0533D",   # 注意を引く赤
-    "teal":    "0E8C7F",
+    "gold_tx": "5C4204",   # 金の面の上の文字        8.6:1
+    "coral":   "B34A33",   # 数字の強調（大きな文字のみ）5.3:1
+    "teal":    "0A6156",   # 白抜き 7.4:1
     "teal_lt": "E1F3F1",
-    "gray":    "5B6878",   # 補足テキスト
-    "gray_lt": "AFB9C5",
+    "gray":    "41505F",   # 補足テキスト           白地に 8.3:1
+    "gray_lt": "AFB9C5",   # 罫線専用。文字には使わない
+    "hint":    "41505F",   # プレースホルダの指示文
     "line":    "D8DEE7",
     "bg":      "F5F7FA",
     "white":   "FFFFFF",
@@ -34,22 +38,29 @@ C = {
 
 # タイプスケール（pt）: 会場後方・保護者でも読める下限を守る
 T = {
-    "kicker": 16,
-    "title":  40,
-    "title_s":34,
-    "lead":   24,
-    "body":   23,
-    "body_s": 21,
-    "small":  15,
-    "huge":  130,
-    "huge_s": 96,
+    "kicker": 20,
+    "title":  44,
+    "title_s":38,
+    "lead":   30,
+    "body":   28,
+    "body_s": 26,
+    "small":  18,
+    "huge":  150,
+    "huge_s": 110,
 }
-MIN_BODY = 20   # 本文はこれ未満にしない
+MIN_BODY = 24    # 本文・箇条書き・リードの下限
+MIN_CARD = 20    # カード内／階段図など、幅の狭い枠の下限
+MIN_ANY  = 16    # スライド上のあらゆる文字の絶対下限（ページ番号14ptのみ例外）
 
-M = {"l": 0.85, "r": 0.85, "t": 0.52, "b": 0.45}
+# 重要な情報は 上端 t 〜 下端 (7.5 - b) の安全域に収める（会場の前列の頭・暗幕対策）
+M = {"l": 0.95, "r": 0.95, "t": 0.55, "b": 1.05}
 CONTENT_W = SLIDE_W - M["l"] - M["r"]
 
 WARNINGS = []
+ERRORS = []
+SAFE_CHECK = [True]   # 全面ベタ塗りのスライドでは一時的に外す
+CUR = [0]             # 検査メッセージ用の現在のスライド番号
+SAFE_BOTTOM = SLIDE_H - 1.05
 
 # ---------------------------------------------------------------- low level
 def _rgb(hexs):
@@ -85,7 +96,7 @@ def _is_wide(ch):
             or 0xF900 <= o <= 0xFAFF or 0xFE30 <= o <= 0xFE6F or 0xFF00 <= o <= 0xFF60
             or 0xFFE0 <= o <= 0xFFE6 or 0x3000 <= o <= 0x303F)
 
-SAFE = 1.07   # フォント差（Meiryo/游/Noto）を吸収する安全率
+SAFE = 1.11   # フォント差（Meiryo/游ゴシック/Noto）を吸収する安全率
 
 def text_w_in(text, size_pt):
     """文字列の実測に近い幅（インチ）。安全率込みで少し大きめに見積もる。"""
@@ -117,6 +128,8 @@ def est_lines(text, box_w_in, size_pt):
 def textbox(slide, x, y, w, h, text, size, bold=False, color="12253F",
             align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP, line_spacing=1.35,
             space_after=0, spc=None, font=FONT, tag="", nowrap=False):
+    if nowrap and align != PP_ALIGN.CENTER:
+        nowrap = False          # 左右揃えの箱で折返しを切ると描画側で中央寄せに化ける
     tb = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
     tf = tb.text_frame
     tf.word_wrap = not nowrap
@@ -132,11 +145,17 @@ def textbox(slide, x, y, w, h, text, size, bold=False, color="12253F",
         r = p.add_run()
         r.text = ln
         _set_run_font(r, size, bold, color, font, spc)
+    if size < MIN_ANY and tag != "pn":
+        ERRORS.append(f"p{CUR[0]:02d} [小さすぎ] {tag or text[:14]!r} {size}pt < {MIN_ANY}pt")
+    if tag in ("bullet", "lead") and size < MIN_BODY:
+        ERRORS.append(f"p{CUR[0]:02d} [本文が下限割れ] {tag} {text[:16]!r} {size}pt < {MIN_BODY}pt")
+    if SAFE_CHECK[0] and tag not in ("pn", "footnote") and y + h > SAFE_BOTTOM + 0.06:
+        WARNINGS.append(f"p{CUR[0]:02d} [安全域外] {tag or text[:14]!r} 下端{y + h:.2f}in > {SAFE_BOTTOM:.2f}in")
     if nowrap:
         return tb
     need = est_lines(text, w, size) * (size / 72.0) * line_spacing
     if need > h + 0.04:
-        WARNINGS.append(f"[overflow] {tag or text[:18]!r} 必要{need:.2f}in > 枠{h:.2f}in ({size}pt)")
+        WARNINGS.append(f"p{CUR[0]:02d} [overflow] {tag or text[:18]!r} 必要{need:.2f}in > 枠{h:.2f}in ({size}pt)")
     return tb
 
 def rect(slide, x, y, w, h, fill=None, line=None, line_w=1.0, shape=MSO_SHAPE.RECTANGLE,
@@ -180,9 +199,9 @@ def header(slide, kicker, title, color_title="12253F", color_kicker="1160C4",
     """共通ヘッダ（ケッカー→タイトル→アクセントの罫）。戻り値＝本文開始 y"""
     y = M["t"] if y is None else y
     if kicker:
-        textbox(slide, M["l"], y, CONTENT_W, 0.30, kicker.upper(), T["kicker"],
+        textbox(slide, M["l"], y, CONTENT_W, 0.42, kicker.upper(), T["kicker"],
                 True, color_kicker, spc=2.2, tag="kicker")
-        y += 0.42
+        y += 0.50
     size = T["title"] if text_w_in(title, T["title"]) <= CONTENT_W else T["title_s"]
     h = est_lines(title, CONTENT_W, size) * (size / 72.0) * 1.2
     textbox(slide, M["l"], y, CONTENT_W, h + 0.06, title, size, True, color_title,
@@ -197,6 +216,11 @@ def bullet_block(slide, x, y, w, points, size=None, gap=0.30, marker="1160C4",
                  color="12253F", max_h=None):
     """箇条書き。マーカーは図形で描き、行間をゆったり取る。"""
     size = size or T["body"]
+    if len(points) > 4:
+        ERRORS.append(f"p{CUR[0]:02d} [箇条書きが5項目以上] {len(points)}項目: {points[0][:16]!r}")
+    for p_ in points:
+        if len(p_) > 30:
+            WARNINGS.append(f"p{CUR[0]:02d} [1行30字超] {len(p_)}字: {p_[:22]!r}")
     tw = w - 0.42
     # 収まらなければ 1 段だけ縮める（MIN_BODY 未満にはしない）
     while size > MIN_BODY and max_h:
@@ -204,6 +228,15 @@ def bullet_block(slide, x, y, w, points, size=None, gap=0.30, marker="1160C4",
         if need <= max_h:
             break
         size -= 1
+    if max_h:
+        need = sum(est_lines(p, tw, size) * (size / 72.0) * 1.4 + gap for p in points) - gap
+        while gap > 0.16 and need > max_h:
+            gap -= 0.02
+            need = sum(est_lines(p, tw, size) * (size / 72.0) * 1.4 + gap for p in points) - gap
+        if need > max_h + 0.03:
+            ERRORS.append(
+                f"p{CUR[0]:02d} [箇条書きが枠に入らない] 必要{need:.2f}in > 枠{max_h:.2f}in "
+                f"（{size}pt・{len(points)}項目）→ 文言を削るか項目を減らすこと")
     cy = y
     for p in points:
         n = est_lines(p, tw, size)
@@ -235,13 +268,24 @@ def photo_slot(slide, x, y, w, h, caption="", hint="", tint="E7F0FB"):
     rect(slide, x, y, w, h, fill=tint)
     rect(slide, x, y, 0.11, h, fill=C["brand"])
     if caption:
-        textbox(slide, x + 0.34, y + h - 0.95, w - 0.68, 0.75, caption, 19, True,
-                C["ink"], anchor=MSO_ANCHOR.BOTTOM, tag="photocap")
-    textbox(slide, x + 0.34, y + 0.26, w - 0.68, 0.30,
-            "［写真を差し込む位置］", 13, False, "8A97A6", tag="photohint")
+        cs = 22
+        while cs > 18 and est_lines(caption, w - 0.68, cs) > 2:
+            cs -= 1
+        textbox(slide, x + 0.34, y + h - 1.05, w - 0.68, 0.85, caption, cs, True,
+                C["ink"], anchor=MSO_ANCHOR.BOTTOM, line_spacing=1.3, tag="photocap")
+    textbox(slide, x + 0.34, y + 0.28, w - 0.68, 0.34,
+            "［写真を差し込む位置］", 18, True, C["hint"], tag="photohint")
     if hint:
-        textbox(slide, x + 0.34, y + 0.60, w - 0.68, 0.60, hint, 13, False, "8A97A6",
-                line_spacing=1.25, tag="photohint2")
+        hh = est_lines(hint, w - 0.68, 16) * (16 / 72.0) * 1.3
+        textbox(slide, x + 0.34, y + 0.70, w - 0.68, hh + 0.06, hint, 16, False, C["hint"],
+                line_spacing=1.3, tag="photohint")
+
+def fn_height(text):
+    """脚注が実際に占める高さ（余白込み）"""
+    if not text:
+        return 0.0
+    return est_lines(text, CONTENT_W, T["small"]) * (T["small"] / 72.0) * 1.3 + 0.26
+
 
 def footnote(slide, text):
     if not text:
@@ -251,16 +295,21 @@ def footnote(slide, text):
             T["small"], False, C["gray"], line_spacing=1.3, tag="footnote")
 
 def pagenum(slide, n):
-    textbox(slide, SLIDE_W - M["r"] - 0.9, SLIDE_H - 0.42, 0.9, 0.28, str(n), 13,
-            False, C["gray_lt"], align=PP_ALIGN.RIGHT, tag="pn")
+    textbox(slide, SLIDE_W - M["r"] - 0.9, SLIDE_H - 0.44, 0.9, 0.30, str(n), 14,
+            False, "8895A5", align=PP_ALIGN.RIGHT, tag="pn")
 
 def engage_strip(slide, text, y=None):
     """聴衆への投げかけを『帯』で見せる。単調さを壊す装置。"""
     if not text:
         return
-    h = 0.86
+    tw = CONTENT_W - 0.7
+    size = 24
+    while size > 20 and est_lines(text, tw, size) > 1:
+        size -= 1
+    n = est_lines(text, tw, size)
+    h = max(0.86, n * (size / 72.0) * 1.3 + 0.32)
     y = SLIDE_H - M["b"] - h - 0.05 if y is None else y
     rect(slide, M["l"], y, CONTENT_W, h, fill=C["gold_lt"])
     rect(slide, M["l"], y, 0.11, h, fill=C["gold"])
-    textbox(slide, M["l"] + 0.36, y + 0.16, CONTENT_W - 0.7, h - 0.30, text, 20, True,
-            "7A5A05", line_spacing=1.3, anchor=MSO_ANCHOR.MIDDLE, tag="engage")
+    textbox(slide, M["l"] + 0.36, y + 0.14, tw, h - 0.26, text, size, True,
+            C["gold_tx"], line_spacing=1.3, anchor=MSO_ANCHOR.MIDDLE, tag="engage")
