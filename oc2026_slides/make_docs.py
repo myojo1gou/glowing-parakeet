@@ -48,11 +48,29 @@ tot = full
 for s in cuts:
     tot -= s["est_seconds"]
     lines.append(f"{s['cut_rank']}. **{s['no']}枚目「{s['title']}」** を飛ばす（−{s['est_seconds']}秒 → 約{mmss(tot)}）")
-lines += ["",
-          "さらに詰めるときは、この順で。",
-          "6. 5・6枚目（経済学クイズと答え）をまとめて飛ばす",
-          "7. 9枚目（教員8名）を飛ばし、「先生は8人です」と口頭だけにする",
-          "8. 2枚目（アイスブレイク）を飛ばす",
+extra = [(6, [5, 6], "経済学クイズと答え（2枚まとめて）"),
+         (7, [9], "教員8名 ―「先生は8人です」と口頭だけにする"),
+         (8, [2], "アイスブレイク")]
+by_no = {s["no"]: s for s in S}
+for rank, nos, label in extra:
+    tot -= sum(by_no[n]["est_seconds"] for n in nos)
+    lines.append(f"{rank}. **{'・'.join(str(n) for n in nos)}枚目「{label}」** を飛ばす → 約{mmss(tot)}")
+
+hide = [s["cut_rank"] and s["no"] for s in S if s.get("cut_rank")]
+hide = sorted(hide) + [5, 6, 9, 2]
+hide = sorted(set(hide))
+left = full - sum(by_no[n]["est_seconds"] for n in hide)
+lines += ["", "## 20分コース（持ち時間が20分のとき）", "",
+          f"開始前に次の**{len(hide)}枚を非表示**にしてください（PowerPoint：スライド一覧で右クリック → 非表示スライド）。",
+          "",
+          "```",
+          "非表示にする枚：" + "、".join(str(n) for n in hide),
+          "```",
+          "",
+          f"残り**{len(S) - len(hide)}枚・約{mmss(left)}**。質疑を入れて20〜22分に収まります。",
+          "",
+          "残る枚：" + "、".join(f"{s['no']}（{s['title'].replace(chr(10),' ')}）"
+                                 for s in S if s["no"] not in hide),
           "",
           "## 絶対に削らない8枚", ""]
 keep = ["1（表紙・写真の伏線）", "3（アジェンダ・数字の伏線）", "10（区切り／ここからが本題）",

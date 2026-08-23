@@ -61,10 +61,11 @@ def L_title(slide, s):
 def L_section(slide, s):
     tone = s.get("tone", "navy")
     base = {"navy": C["navy"], "teal": "0B5F58", "brand": "0C4C9E"}.get(tone, C["navy"])
+    deco = {"navy": "3A6699", "teal": "3E8F84", "brand": "3A6699"}.get(tone, "3A6699")
     bg(slide, base)
     if s.get("big_number"):
         textbox(slide, M["l"] - 0.12, 0.72, 3.2, 2.6, s["big_number"], 150, True,
-                "3A6699", line_spacing=1.0, nowrap=True)
+                deco, line_spacing=1.0, nowrap=True)
     tsz = 50
     while tsz > 34 and est_lines(s["title"], 11.4, tsz) > 1:
         tsz -= 2
@@ -88,10 +89,10 @@ def L_agenda(slide, s):
         textbox(slide, M["l"], y, CONTENT_W, 0.5, s["lead"], T["lead"], False, C["gray"])
         y += 0.78
     rows = s.get("body_points", [])[:3]
-    eng_h = 1.02 if s.get("engagement") else 0.0
-    gap = 0.26
+    eng_h = 1.11 if s.get("engagement") else 0.0
+    gap = 0.24
     avail = SLIDE_H - M["b"] - y - eng_h
-    h = max(0.86, min(1.34, (avail - gap * (len(rows) - 1)) / max(len(rows), 1)))
+    h = max(0.80, min(1.34, (avail - gap * (len(rows) - 1)) / max(len(rows), 1)))
     for i, raw in enumerate(rows):
         star = raw.startswith("*")
         txt = raw[1:].strip() if star else raw
@@ -153,6 +154,9 @@ def L_three_cards(slide, s):
     w = (CONTENT_W - gap * (len(cards) - 1)) / max(len(cards), 1)
     h = min(4.20, SLIDE_H - M["b"] - y - fn_height(s.get("footnote", "")))
     tones = [(C["brand"], C["brand_lt"]), (C["teal"], C["teal_lt"]), (C["gold"], C["gold_lt"])]
+    ts_all = 30
+    while ts_all > 22 and any(est_lines(_split(r, 2)[0], w - 0.68, ts_all) > 1 for r in cards):
+        ts_all -= 1
     for i, raw in enumerate(cards):
         t, body = _split(raw, 2)
         x = M["l"] + i * (w + gap)
@@ -161,9 +165,7 @@ def L_three_cards(slide, s):
         rect(slide, x, y, w, 0.10, fill=fg)
         textbox(slide, x + 0.34, y + 0.36, 1.2, 0.46, f"0{i+1}", 26, True,
                 C["gold_tx"] if i % 3 == 2 else fg, spc=1.2, nowrap=True)
-        ts = 30
-        while ts > 22 and est_lines(t, w - 0.68, ts) > 1:
-            ts -= 1
+        ts = ts_all
         th = est_lines(t, w - 0.68, ts) * (ts / 72.0) * 1.25
         textbox(slide, x + 0.34, y + 1.00, w - 0.68, th + 0.05, t, ts, True, C["ink"],
                 line_spacing=1.25)
@@ -188,7 +190,7 @@ def L_four_steps(slide, s):
     bottom = SLIDE_H - M["b"] - fn_height(s.get("footnote", "")) - 0.06
     rise = min(0.36, max(0.0, (bottom - y - 2.92) / 3.0))
     tops = [y + (3 - i) * rise for i in range(4)]
-    tone = [("6E9BCE", C["bg"]), ("2E76C0", C["brand_lt"]), (C["brand"], C["brand_lt"]),
+    tone = [("2E76C0", C["bg"]), (C["brand"], C["brand_lt"]), (C["brand_dk"], C["brand_lt"]),
             (C["gold"], C["gold_lt"])]
     for i, raw in enumerate(steps):
         year, title, money = (_split(raw, 3) + [""] * 3)[:3] if raw.count("｜") >= 2 else (
@@ -323,7 +325,7 @@ def L_stat_bar(slide, s):
 def L_photo_focus(slide, s):
     bg(slide, C["white"])
     y = header(slide, s.get("kicker", ""), s["title"])
-    pw = 6.55
+    pw = 6.20
     fn_h = fn_height(s.get("footnote", ""))
     photo_slot(slide, M["l"], y, pw, SLIDE_H - M["b"] - y - fn_h - 0.05,
                s.get("photo_caption", ""), s.get("photo_slot", ""))
@@ -360,15 +362,17 @@ def L_two_column(slide, s):
             pts -= 1
         textbox(slide, px + 0.32, y + 0.40, pwid - 0.64, 0.54, panel.get("title", ""), pts,
                 True, C["ink"])
-        cy = y + 1.16
-        for it in panel.get("items", [])[:4]:
+        items = panel.get("items", [])[:4]
+        pitch = min(1.16, max(0.98, (ph - 1.15) / max(len(items), 1)))
+        cy = y + 1.10
+        for it in items:
             k, v = _split(it, 2)
-            textbox(slide, px + 0.32, cy, pwid - 0.64, 0.38, k, 20, False, C["gray"])
+            textbox(slide, px + 0.32, cy, pwid - 0.64, 0.36, k, 20, False, C["gray"])
             vs = 30
             while vs > 22 and est_lines(v, pwid - 0.64, vs) > 1:
                 vs -= 1
-            textbox(slide, px + 0.32, cy + 0.40, pwid - 0.64, 0.56, v, vs, True, C["coral"])
-            cy += 1.16
+            textbox(slide, px + 0.32, cy + 0.38, pwid - 0.64, 0.54, v, vs, True, C["coral"])
+            cy += pitch
     footnote(slide, s.get("footnote", ""))
 
 # ------------------------------------------------------------------ まとめ
@@ -376,18 +380,18 @@ def L_summary(slide, s):
     bg(slide, C["white"])
     y = header(slide, s.get("kicker", ""), s["title"])
     rows = s.get("body_points", [])[:3]
-    eng_h = 1.34 if s.get("engagement") else 0.0
+    eng_h = 1.11 if s.get("engagement") else 0.0
     fn_h = fn_height(s.get("footnote", ""))
-    gap = 0.24
+    gap = 0.22
     avail = SLIDE_H - M["b"] - y - eng_h - fn_h
-    h = max(0.92, min(1.55, (avail - gap * (len(rows) - 1)) / max(len(rows), 1)))
+    h = max(0.80, min(1.55, (avail - gap * (len(rows) - 1)) / max(len(rows), 1)))
     for i, raw in enumerate(rows):
         rect(slide, M["l"], y, CONTENT_W, h, fill=C["bg"])
-        rect(slide, M["l"], y, 0.11, h, fill=[C["brand"], C["teal"], C["gold"]][i % 3])
+        rect(slide, M["l"], y, 0.11, h, fill=[C["brand"], C["teal"], C["coral"]][i % 3])
         nsz = max(30, min(44, int(h * 72 * 0.62)))
         nbh = nsz / 72.0 * 1.4
         textbox(slide, M["l"] + 0.42, y + (h - nbh) / 2, 0.9, nbh, str(i + 1), nsz, True,
-                [C["brand_dk"], C["teal"], C["gold_tx"]][i % 3], align=PP_ALIGN.LEFT, nowrap=True)
+                [C["brand_dk"], C["teal"], C["coral"]][i % 3], align=PP_ALIGN.LEFT, nowrap=True)
         size = 28
         while size > 22 and est_lines(raw, CONTENT_W - 2.15, size) * (size / 72.0) * 1.34 > h - 0.3:
             size -= 1

@@ -145,7 +145,7 @@ def textbox(slide, x, y, w, h, text, size, bold=False, color="12253F",
         r = p.add_run()
         r.text = ln
         _set_run_font(r, size, bold, color, font, spc)
-    if size < MIN_ANY and tag != "pn":
+    if size < MIN_ANY and tag not in ("pn", "memo"):
         ERRORS.append(f"p{CUR[0]:02d} [小さすぎ] {tag or text[:14]!r} {size}pt < {MIN_ANY}pt")
     if tag in ("bullet", "lead") and size < MIN_BODY:
         ERRORS.append(f"p{CUR[0]:02d} [本文が下限割れ] {tag} {text[:16]!r} {size}pt < {MIN_BODY}pt")
@@ -273,12 +273,10 @@ def photo_slot(slide, x, y, w, h, caption="", hint="", tint="E7F0FB"):
             cs -= 1
         textbox(slide, x + 0.34, y + h - 1.05, w - 0.68, 0.85, caption, cs, True,
                 C["ink"], anchor=MSO_ANCHOR.BOTTOM, line_spacing=1.3, tag="photocap")
-    textbox(slide, x + 0.34, y + 0.28, w - 0.68, 0.34,
-            "［写真を差し込む位置］", 18, True, C["hint"], tag="photohint")
-    if hint:
-        hh = est_lines(hint, w - 0.68, 16) * (16 / 72.0) * 1.3
-        textbox(slide, x + 0.34, y + 0.70, w - 0.68, hh + 0.06, hint, 16, False, C["hint"],
-                line_spacing=1.3, tag="photohint")
+    memo = "［写真を差し込む位置］" + (("　" + hint.replace("\n", " ")) if hint else "")
+    hh = est_lines(memo, w - 0.68, 12) * (12 / 72.0) * 1.35
+    textbox(slide, x + 0.34, y + 0.26, w - 0.68, hh + 0.06, memo, 12, False, "9BABBC",
+            line_spacing=1.35, tag="memo")
 
 def fn_height(text):
     """脚注が実際に占める高さ（余白込み）"""
