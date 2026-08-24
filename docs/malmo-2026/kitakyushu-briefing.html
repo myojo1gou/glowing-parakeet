@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kitakyushu — Industrial Transition and Decarbonisation</title>
+<style>
+  @page { size: A4; margin: 20mm 18mm 18mm 18mm; }
+  @page { @bottom-center { content: counter(page); } }
+
+  :root {
+    --ink: #1a1a1a;
+    --muted: #5b5b5b;
+    --rule: #c9c9c9;
+    --accent: #1d4e5f;
+    --accent-soft: #eef3f4;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: "Liberation Serif", "DejaVu Serif", Georgia, serif;
+    font-size: 10.2pt;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .jp { font-family: "IPAGothic", "Liberation Sans", sans-serif; }
+
+  h1 {
+    font-family: "Liberation Sans", Arial, sans-serif;
+    font-size: 19pt;
+    line-height: 1.2;
+    margin: 0 0 2mm 0;
+    letter-spacing: -0.01em;
+  }
+  h1 .sub {
+    display: block;
+    font-size: 12pt;
+    font-weight: normal;
+    color: var(--muted);
+    margin-top: 2mm;
+    line-height: 1.35;
+  }
+
+  h2 {
+    font-family: "Liberation Sans", Arial, sans-serif;
+    font-size: 11.5pt;
+    margin: 7mm 0 2.5mm 0;
+    padding-bottom: 1.2mm;
+    border-bottom: 1.6pt solid var(--accent);
+    color: var(--accent);
+    break-after: avoid;
+  }
+  h2 .num { color: var(--muted); font-weight: normal; margin-right: 2.5mm; }
+
+  h3 {
+    font-family: "Liberation Sans", Arial, sans-serif;
+    font-size: 10pt;
+    margin: 4.5mm 0 1.5mm 0;
+    break-after: avoid;
+  }
+
+  p { margin: 0 0 2.6mm 0; }
+  p.tight { margin-bottom: 1.4mm; }
+
+  .kicker {
+    font-family: "Liberation Sans", Arial, sans-serif;
+    font-size: 8pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3mm;
+  }
+
+  .meta {
+    font-family: "Liberation Sans", Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.55;
+    color: var(--muted);
+    border-top: 0.6pt solid var(--rule);
+    border-bottom: 0.6pt solid var(--rule);
+    padding: 2.5mm 0;
+    margin: 4mm 0 6mm 0;
+  }
+  .meta b { color: var(--ink); font-weight: bold; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.2pt;
+    margin: 2mm 0 3.5mm 0;
+  }
+  th, td {
+    text-align: left;
+    vertical-align: top;
+    padding: 1.6mm 2.5mm 1.6mm 0;
+    border-bottom: 0.5pt solid var(--rule);
+  }
+  th {
+    font-family: "Liberation Sans", Arial, sans-serif;
+    font-size: 8.4pt;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    border-bottom: 1pt solid var(--ink);
+    font-weight: normal;
+  }
+  td.y {
+    font-family: "Liberation Sans", Arial, sans-serif;
+    font-size: 8.8pt;
+    white-space: nowrap;
+    color: var(--accent);
+    width: 24mm;
+  }
+  td.k { width: 46mm; font-weight: bold; }
+  tr { break-inside: avoid; }
+
+  ul, ol { margin: 0 0 2.6mm 0; padding-left: 5mm; }
+  li { margin-bottom: 1.4mm; }
+
+  .box {
+    background: var(--accent-soft);
+    border-left: 2.5pt solid var(--accent);
+    padding: 3mm 4mm 2mm 4mm;
+    margin: 3mm 0 4mm 0;
+    break-inside: avoid;
+  }
+  .box h3 { margin-top: 0; color: var(--accent); }
+
+  .flow {
+    font-family: "Liberation Sans", Arial, sans-serif;
+    font-size: 8.8pt;
+    line-height: 1.7;
+    margin: 2mm 0 3mm 0;
+    padding-left: 4mm;
+    border-left: 0.8pt solid var(--rule);
+  }
+  .flow b { color: var(--accent); }
+
+  .caveat {
+    font-size: 8.8pt;
+    color: var(--muted);
+    font-style: italic;
+    border-top: 0.5pt dotted var(--rule);
+    padding-top: 1.8mm;
+    margin-top: 2mm;
+  }
+
+  .q { break-inside: avoid; margin-bottom: 3.2mm; }
+  .q b {
+    font-family: "Liberation Sans", Arial, sans-serif;
+    font-size: 9.4pt;
+    display: block;
+    margin-bottom: 0.8mm;
+  }
+  .q span { font-size: 9.2pt; color: var(--muted); }
+
+  .src { font-size: 8.6pt; line-height: 1.45; }
+  .src li { margin-bottom: 1.2mm; }
+
+  .fill {
+    background: #fff6d8;
+    border-bottom: 0.6pt solid #b9952a;
+    padding: 0 1mm;
+  }
+
+  .pb { break-before: page; }
+</style>
+</head>
+<body>
+
+<div class="kicker">Briefing note &middot; for discussion</div>
+
+<h1>Kitakyushu: from steel and smog to a decarbonisation front-runner
+  <span class="sub">What a Japanese heavy-industry city can and cannot do with its own hands —
+  and why I would like to compare it with Malmö</span>
+</h1>
+
+<div class="meta">
+  <b>Prepared for</b> &nbsp;Per-Arne Nilsson, Senior Strategist, Environmental Department, City of Malmö<br>
+  <b>Meeting</b> &nbsp;Malmö, 9 September 2026<br>
+  <b>Prepared by</b> &nbsp;<span class="fill">[name]</span>, <span class="fill">[affiliation]</span> &nbsp;·&nbsp;
+  Nordic field study, 7–11 September 2026 (Danish Energy Agency · Copenhagen Business School · Malmö · Lolland)<br>
+  <b>Subject</b> &nbsp;Municipal-level industrial transition and the financing of decarbonisation
+</div>
+
+<h2><span class="num">1</span>Why this case</h2>
+
+<p>Malmö and Kitakyushu are not obvious twins, but their problem was the same. Each was a second
+city built on a single industry — shipbuilding in Malmö, integrated steelmaking in Kitakyushu —
+and each lost the certainty that industry provided. Both answered by redefining themselves as
+environmental cities, and both are now judged on whether that redefinition produced an economy or
+only a reputation.</p>
+
+<p>I have studied Kitakyushu since my undergraduate work, and my interest is deliberately narrow:
+<i>not</i> what the city declares, but who carries the capital and who carries the risk. Japanese
+municipalities have weak fiscal autonomy and, since liberalisation, no municipal utility in the
+Nordic sense. That constraint has pushed Kitakyushu towards a specific answer — buying energy
+services rather than owning energy assets — which I suspect is the mirror image of how Malmö,
+Lolland and the Danish foundation-owned firms have solved it. This note sets out the Japanese
+side so that our conversation can start from a shared factual base.</p>
+
+<h2><span class="num">2</span>Kitakyushu at a glance</h2>
+
+<table>
+  <tr><td class="k">Established</td><td>1963, by the merger of five cities of equal standing
+    (Moji, Kokura, Wakamatsu, Yahata, Tobata)</td></tr>
+  <tr><td class="k">Area</td><td>491.71 km²</td></tr>
+  <tr><td class="k">Population</td><td>c. 940,000 (Jan 2022); c. 490,000 households.
+    A designated city in long-term decline from a 1979 peak of over 1.06 million</td></tr>
+  <tr><td class="k">Principal industries</td><td>Iron and steel, chemicals, cement, ceramics, automotive</td></tr>
+  <tr><td class="k">Greenhouse gas emissions</td><td>14.78 Mt CO<sub>2</sub>e (2019)</td></tr>
+  <tr><td class="k">Share from the industrial sector</td><td><b>64%</b> — against 32% for Japan as a
+    whole (national total 1.21 Gt CO<sub>2</sub>e, 2019)</td></tr>
+  <tr><td class="k">Headline target</td><td>−47% GHG by FY2030 against FY2013; net zero by 2050</td></tr>
+</table>
+
+<p>That 64% is the single most important number in this note. Two-thirds of Kitakyushu's emissions
+sit inside a handful of private industrial installations that the city does not own, cannot
+regulate directly, and cannot afford to lose. Every instrument described below is shaped by that
+fact — the city works on the third of emissions it can reach, and tries to influence the rest
+through industrial policy rather than climate policy.</p>
+
+<h2><span class="num">3</span>Four phases of the transition</h2>
+
+<table>
+  <tr><th style="width:24mm">Period</th><th style="width:44mm">Phase</th><th>What happened</th></tr>
+  <tr>
+    <td class="y">1901–1963</td>
+    <td class="k">Building the steel city</td>
+    <td>The state-owned Yawata Steel Works opens in 1901 and becomes the core of Japanese
+      industrialisation. Five towns grow together around it and merge in 1963.</td>
+  </tr>
+  <tr>
+    <td class="y">1960s–1970s</td>
+    <td class="k">Pollution and the citizens' response</td>
+    <td>Dokai Bay is declared a "sea of death"; the sky over Yahata is described as having seven
+      colours. Local women's associations document the damage and force the issue onto the political
+      agenda, producing pollution-control agreements between the city and industry well ahead of
+      national law. This is the origin of the city's environmental identity — it was imposed from
+      below, not chosen.</td>
+  </tr>
+  <tr>
+    <td class="y">1980s–2000s</td>
+    <td class="k">Environment as an industry</td>
+    <td>The clean-up is converted into an export: the Eco-Town project (from 1997) turns the
+      Hibikinada waterfront into a recycling industrial estate; the Science and Research Park and its
+      agency FAIS (from the 1990s) attempt to build a knowledge economy; the city becomes a hub for
+      environmental cooperation with Asian cities. Selected as an Eco-Model City (2008) and an SDGs
+      Future City (2018).</td>
+  </tr>
+  <tr>
+    <td class="y">2010s–</td>
+    <td class="k">Energy as an industry</td>
+    <td>Green Energy Port Hibiki (from 2011) reorients the port towards offshore wind. Zero Carbon
+      City declaration (Oct 2020); climate emergency declaration (Jun 2021); Green Growth Strategy
+      (Feb 2022); selection as a national <i>Decarbonisation Leading Area</i> (Apr 2022).</td>
+  </tr>
+</table>
+
+<div class="box">
+  <h3>The structural parallel worth testing</h3>
+  <p class="tight">In both cities the environmental turn began as damage control and only later
+  became a growth story. The interesting question is whether the growth story is real. Malmö has
+  Västra Hamnen and a university; Kitakyushu has Eco-Town and a science park. Section 6 sets out
+  why I am sceptical about the Japanese half of that claim.</p>
+</div>
+
+<h2 class="pb"><span class="num">4</span>What Kitakyushu is doing now</h2>
+
+<h3>4.1 Green Growth Strategy (February 2022)</h3>
+<p class="tight">An action plan for a "virtuous circle of environment and economy", built on four
+pillars: (i) decarbonised power and hydrogen supply, (ii) business support for innovation,
+(iii) decarbonised urban development through planning and transport, (iv) export of environmental
+business to Asia. Stated expected effects: <b>¥590–680 billion</b> of economic impact and
+<b>c. 930,000 t</b> of CO<sub>2</sub> reduction. Targets for FY2030: renewable capacity of
+<b>1,302–1,402 MW</b> within the city (roughly three times the current level) and hydrogen demand
+of <b>5,700 t/year</b>.</p>
+
+<h3>4.2 Decarbonisation Leading Area (April 2022)</h3>
+<p class="tight">A national programme requiring net-zero electricity in the residential and
+commercial sector by FY2030, intended as a replicable model — the government's phrase is a
+"decarbonisation domino". Kitakyushu applied <i>jointly with 17 neighbouring municipalities</i>
+(18 in total) and was selected in the first cohort. Scope and figures:</p>
+<ul>
+  <li>Target estate: approximately <b>3,600 public facilities</b> across the 18 municipalities, plus
+    the cluster of recycling companies in Eco-Town.</li>
+  <li>New renewable capacity: <b>37 MW</b>; PV at approximately <b>290 sites</b> in Kitakyushu and
+    <b>130 sites</b> in the 17 neighbouring municipalities; <b>100%</b> renewable electricity for the
+    target facilities.</li>
+  <li>Cascade use of second-life PV panels and EV batteries, developed with Eco-Town firms and
+    vehicle manufacturers, to lower the cost further.</li>
+  <li>Funded through the national Regional Decarbonisation Transition and Renewable Energy Promotion
+    Grant.</li>
+</ul>
+
+<h3>4.3 The "100% Renewable Kitakyushu Model" (announced February 2021)</h3>
+<p class="tight">A three-step standard roadmap that any facility can be moved along:</p>
+<table>
+  <tr><td class="y">Step 1</td><td>100% renewable electricity, supplied from generation
+    <i>inside the city</i> (including waste-to-energy plants) through Kitakyushu Power and other
+    retailers.</td></tr>
+  <tr><td class="y">Step 2</td><td>Self-sufficient facility: PV plus battery, installed under
+    third-party ownership. The battery charges when power is cheap and discharges when it is
+    expensive, absorbing surplus local renewable output and cutting the bill.</td></tr>
+  <tr><td class="y">Step 3</td><td>Step 2 plus energy-efficient equipment, also third-party owned,
+    reducing total consumption and therefore the volume of renewable electricity that must be
+    procured.</td></tr>
+</table>
+
+<h3>4.4 Progress on the ground</h3>
+<table>
+  <tr><th>Indicator</th><th style="width:32mm">Date</th><th style="width:46mm">Result</th></tr>
+  <tr><td>Public facilities on 100% renewable electricity (18-municipality area)</td>
+      <td class="y">1 July 2023</td><td><b>626 facilities</b><br>(586 in Kitakyushu itself)</td></tr>
+  <tr><td>CO<sub>2</sub> avoided by those facilities</td>
+      <td class="y">1 July 2023</td><td><b>10,936.5 t/year</b></td></tr>
+  <tr><td>Firms certified under the city's Decarbonised Electricity Certification scheme</td>
+      <td class="y">1 May 2023</td><td><b>36 companies, 48 sites</b><br>c. 44,550 t CO<sub>2</sub>/year</td></tr>
+  <tr><td>PV installed under the Leading Area programme, FY2022</td>
+      <td class="y">FY2022</td><td>16 public facilities (350 kW) and 1 Eco-Town firm (200 kW)</td></tr>
+  <tr><td>Batteries installed, FY2022</td>
+      <td class="y">FY2022</td><td>14 public facilities (230 kWh) and 1 private site (10 kWh)</td></tr>
+  <tr><td>Air conditioning installed, FY2022</td>
+      <td class="y">FY2022</td><td>28 public facilities; grant spend ¥100m and ¥370m respectively</td></tr>
+</table>
+
+<p>The certification scheme is worth a moment. It costs the city almost nothing: a company on a
+decarbonised electricity tariff gets a sticker, a logo, publication on the city's channels, and —
+the part that bites — eligibility for a municipal finance facility and extra points in the scoring
+of four separate municipal grant and business-selection schemes. Recognition is converted into
+access to money the city already controls.</p>
+
+<h2><span class="num">5</span>The mechanism most likely to interest you: third-party ownership</h2>
+
+<p>Kitakyushu does not buy solar panels. It buys electricity from panels that someone else owns and
+that happen to sit on its roofs. The city's own slogan for this is a shift <b>"from ownership to
+use"</b>. The structure:</p>
+
+<div class="flow">
+  <b>Equipment company</b> owns and installs the PV, battery or air-conditioning unit<br>
+  → <b>JV / consortium</b> operates and manages the equipment, with IoT monitoring<br>
+  → <b>Retailer</b> (Kitakyushu Power and others) holds the electricity supply contract<br>
+  → <b>Public or private facility</b> pays only an electricity tariff — no capital expenditure
+</div>
+
+<p>Three design choices make this more than a financing trick:</p>
+<ul>
+  <li><b>A hard price rule.</b> The city will only do a PPA at a facility where the resulting tariff
+    is at or below the electricity price it already pays. Decarbonisation is not permitted to cost
+    more. This is the discipline that has kept the programme politically durable — and also what
+    limits how fast it can spread.</li>
+  <li><b>Speed, not just cost.</b> The clearest case is air conditioning for school kitchens,
+    installed for heat-stress protection of staff. Conventional municipal procurement would have
+    taken about 13 years at roughly 10 schools a year, at c. ¥48m/year. Under third-party ownership
+    the rollout takes about 2 years at c. ¥44m/year, and IoT monitoring extends equipment life from
+    13 to 15 years. The saving is real but modest; the eleven years are the point.</li>
+  <li><b>Scale by aggregation.</b> A city of 940,000 cannot make a low-cost PPA model bankable on its
+    own estate alone. Bundling 18 municipalities and roughly 3,600 buildings is what creates a
+    portfolio large enough for private counterparties to bid on.</li>
+</ul>
+
+<h3>A worked example — Hiagari Citizens' Centre (Step 2)</h3>
+<p class="tight">12 kW of PV and one 16.4 kWh stationary battery on a building consuming about
+40,000 kWh a year. Roughly 13,000 kWh a year is self-consumed, giving about <b>33% electricity
+self-sufficiency</b>. The building is also a designated evacuation shelter: on a full charge the
+battery can run the office lighting for 12 hours and charge the mobile phones of 50 evacuees for 18
+hours. In Japan, resilience is frequently the argument that actually unlocks the budget, with
+carbon as the secondary benefit — I would be interested to know whether Malmö has an equivalent
+"second reason".</p>
+
+<h3>The wider industrial build-out</h3>
+<ul>
+  <li><b>Offshore wind.</b> Kitakyushu Port was designated in September 2020 as a base port under the
+    Port and Harbour Act — the only one in western Japan. The Hibikinada offshore wind farm is planned
+    at approximately <b>220 MW</b> (25 turbines of 9.6 MW), developed by Hibiki Wind Energy. Since
+    2011 the Green Energy Port Hibiki project has been assembling a four-function cluster:
+    import/export, turbine marshalling, O&amp;M, and related manufacturing.</li>
+  <li><b>Hydrogen.</b> The Fukuoka Prefecture Hydrogen Hub Council brings together around 30
+    organisations, chaired by the Governor of Fukuoka, with the Mayor of Kitakyushu, Kyushu Electric
+    Power, Saibu Gas and Nippon Steel as vice-chairs — aiming at a commercial hydrogen supply chain
+    centred on the Hibikinada waterfront.</li>
+  <li><b>Circular industry.</b> Eco-Town firms recycle PV panels at a recovery rate above 99% and
+    return aluminium, glass, silver and copper to the market; second-life EV batteries are being
+    brought into the same system.</li>
+  <li><b>Partnership agreements as the city's main instrument.</b> April 2022 with Izutsuya, Toyota
+    Motor Kyushu, Kyushu Electric Power and Kyushu Institute of Technology; October 2022 with Daikin,
+    Denso Kyushu and Yanekara (a University of Tokyo spin-out). The city's stated ambition is to act
+    as a <i>hub</i> — it convenes, demonstrates and certifies, because it cannot invest at scale.</li>
+</ul>
+
+<h2 class="pb"><span class="num">6</span>A critical reading — where I think the case actually stands</h2>
+
+<p>Everything above is what the city presents, and most of it is genuinely working. My own research
+concerns the longer record, and it is less flattering. Kitakyushu has run an
+environment-and-knowledge-led growth strategy for three decades, and the city's gross product has
+nonetheless grown slowly relative to other designated cities. The transition has been real as
+environmental policy and weak as economic policy.</p>
+
+<p>I examined this through a growth-contribution analysis of Kitakyushu against Fukuoka City from
+1980 to 2020, and through the record of the Science and Research Park and its agency FAIS. Two
+findings shape how I read the current decarbonisation programme.</p>
+
+<h3>6.1 The industries that were targeted are not the industries that grew</h3>
+<table>
+  <tr><th style="width:30mm">Period</th><th>Industries the city and FAIS set out to grow</th></tr>
+  <tr><td class="y">1994–1998</td><td>Imaging and video, aerospace, airport-related industry</td></tr>
+  <tr><td class="y">1999–2003</td><td>Environment (recycling), information technology, welfare,
+    housing, lifestyle and culture, biotechnology</td></tr>
+  <tr><td class="y">2004–2008</td><td>Environment (recycling, eco-premium products, biomass),
+    information technology, welfare devices, biotechnology, next-generation robotics,
+    semiconductors</td></tr>
+  <tr><td class="y">2019</td><td>Semiconductors, car electronics, information and communication
+    (system LSI), robotics</td></tr>
+</table>
+<p class="tight">What in fact contributed most to the city's product in the most recent period was
+health care and social work, real estate, and miscellaneous manufacturing. The target list was
+rewritten roughly every five years, largely tracking whichever industry national programmes were
+funding at the time; the productive structure underneath it moved towards lower-value,
+locally-consumed services.</p>
+
+<h3>6.2 Three explanations I am testing</h3>
+<ol>
+  <li><b>The success criterion was commercialisation, not value added.</b> FAIS assessed projects on
+    technical feasibility, the prospect of getting to a product, and employment — not on revenue or
+    contribution to the city's economy. A project that reached market counted as a success even if it
+    never grew. National schemes attached to the same projects <i>did</i> carry revenue targets, and
+    the robotics programme, which used them, is one of the areas that actually expanded.</li>
+  <li><b>There was never enough private capital.</b> No meaningful venture capital layer formed
+    locally. Regional banks fund company formation rather than R&amp;D, so FAIS ended up financing
+    research from its own budget — which is bounded by a shrinking municipal balance sheet. The
+    comparison I use is Pittsburgh, where university-led renewal was carried by roughly a billion
+    dollars a year of investment and where venture investors brought a commercial judgement into the
+    decision to fund.</li>
+  <li><b>The supporting services never agglomerated.</b> A technology cluster needs accountants,
+    patent and corporate lawyers, marketing, and investors within reach. Around the Science and
+    Research Park these are thin, and the city has substituted for them by providing the services
+    itself. That keeps the cluster running but caps it at the scale a municipality can fund, and
+    removes the competition that would improve the services themselves.</li>
+</ol>
+
+<div class="box">
+  <h3>Why this matters for our conversation</h3>
+  <p class="tight">If that diagnosis is right, the third-party-ownership model in Section 5 is the
+  most interesting thing Kitakyushu has done in thirty years — not because of the megawatts, which
+  are small, but because it is the first instrument that puts <i>private balance sheets</i> behind
+  municipal decarbonisation instead of asking a declining municipal budget to carry it. The
+  unresolved question is whether buying services rather than owning assets leaves the city with any
+  lasting capability, or whether it has simply outsourced its energy transition. That is exactly the
+  question I want to put to a city that took the opposite route.</p>
+</div>
+
+<p class="caveat">Section 6 reports work in progress. The contribution analysis is not yet published
+and the figures behind it are still being revised; I present the structural argument here rather
+than the numbers, and I would rather be corrected than believed.</p>
+
+<h2><span class="num">7</span>What I would like to ask you</h2>
+
+<div class="q"><b>1. The shipyard.</b><span> When Kockums wound down, who absorbed the cost — the
+municipal balance sheet, the state, or private developers? Kitakyushu never had a single closure
+event; its steel industry shrank slowly and is still there, which may have made the transition
+politically easier and economically slower.</span></div>
+
+<div class="q"><b>2. What does the City of Malmö still own?</b><span> Kitakyushu has no municipal
+utility. It has a stake in a local electricity retailer and it owns buildings — that is nearly the
+whole lever. What is Malmö's ownership position today across district heating, water, and housing,
+and how much of your climate programme depends on it?</span></div>
+
+<div class="q"><b>3. Municipal capital, regulation, or procurement?</b><span> Of Malmö's climate
+targets, roughly what share is delivered by the city spending its own money, by regulating others,
+and by using its purchasing power? I would like to compare the mix rather than the targets.</span></div>
+
+<div class="q"><b>4. The emissions you do not control.</b><span> Two-thirds of Kitakyushu's emissions
+belong to private industry. Does Malmö face the same asymmetry — and if so, what has actually
+worked: agreements, planning conditions, procurement, or public pressure?</span></div>
+
+<div class="q"><b>5. Third-party ownership under EU procurement law.</b><span> Do you use PPA or
+energy-service models on municipal buildings? In Japan the model's weak point is that a long
+service contract is hard to reconcile with annual budgeting; I would expect EU procurement rules to
+create a different but comparable friction.</span></div>
+
+<div class="q"><b>6. Cooperating with your neighbours.</b><span> Kitakyushu bundled 18 municipalities
+to make its programme large enough to attract private bidders. How does Malmö achieve scale with
+Lund, Burlöv and Region Skåne — and does joint procurement work in practice or mainly on
+paper?</span></div>
+
+<div class="q"><b>7. The workforce.</b><span> What became of the shipyard workers? Japanese
+transitions are often cushioned by redeployment inside the same corporate group, which protects
+individuals but slows structural change. I would like to know whether Sweden's separation of
+employment protection from the individual firm produced a faster or a more painful adjustment —
+and which you would choose again.</span></div>
+
+<div class="q"><b>8. Ownership forms.</b><span> I am also visiting Lolland and its holding company
+LOKE, and studying Danish foundation-owned enterprises. Does Malmö have anything comparable — a
+vehicle that lets public purposes be pursued with private capital and a long time horizon?</span></div>
+
+<h2><span class="num">8</span>Sources</h2>
+<ol class="src">
+  <li>City of Kitakyushu, Environment Bureau, Renewable Energy Promotion Division,
+    <span class="jp">「脱炭素先行地域にかかる北九州市の取り組み」</span>
+    (<i>Kitakyushu's initiatives concerning the Decarbonisation Leading Area</i>),
+    presentation, 22 September 2023. — Principal source for Sections 4 and 5.</li>
+  <li>City of Kitakyushu, <i>Green Energy Port Hibiki</i> — <span class="jp">「グリーンエネルギーポートひびき」</span>,
+    project brochure. — Offshore wind cluster and base port designation.</li>
+  <li>City of Kitakyushu, <i>Next Generation Energy Kitakyushu</i>, energy park and municipal
+    renewable energy map. — Installed generation in the Hibikinada district.</li>
+  <li>Shinryo Co., Ltd. and Recycle Tech Co., Ltd., company profiles and PV panel recycling
+    materials, 2022. — Eco-Town circular industry.</li>
+  <li>Ørsted Japan K.K., company profile. — Offshore wind developer active in the Japanese market.</li>
+  <li>Author's own research on Kitakyushu's industrial structure and the Science and Research Park
+    (FAIS), drawing on <i>Kitakyushu City Economic Accounts</i> (1996–2020) and FAIS programme
+    documents. Unpublished; Section 6 only.</li>
+  <li>Background on the pollution period and the 1963 municipal merger is drawn from the standard
+    literature on Kitakyushu's post-war history and is not attributable to the documents above.</li>
+</ol>
+
+</body>
+</html>
