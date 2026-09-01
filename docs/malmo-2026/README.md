@@ -8,13 +8,25 @@ City of Malmö), for the meeting in Malmö on **9 September 2026** during the No
 
 | File | What it is |
 |---|---|
-| `japan-transition-report.html` / `.pdf` | **Main report**, 21 pages A4. Nine Japanese cases read for ownership, financing and risk; synthesis; fourteen questions for Malmö. |
-| `kitakyushu-briefing.html` / `.pdf` | **Short handout**, 8 pages A4. Kitakyushu only. Kept as the version to hand over at the meeting itself. |
+| `japan-transition-report.docx` | **Main report** in Word — the editable master. Nine Japanese cases read for ownership, financing and risk; synthesis; fourteen questions for Malmö. |
+| `kitakyushu-briefing.docx` | **Short handout** in Word. Kitakyushu only. The version to hand over at the meeting itself. |
+| `build-docx.js`, `package.json` | Source of both Word files (docx-js). |
+| `japan-transition-report.html` / `.pdf` | The same report as a print-styled A4 PDF, 21 pages. |
+| `kitakyushu-briefing.html` / `.pdf` | The same handout as a print-styled A4 PDF, 8 pages. |
 
-Both are print-styled A4, self-contained, no external assets. The byline on page 1 of each
-(`[name]`, `[affiliation]`) is a highlighted placeholder — fill it in the HTML before re-rendering.
+The byline on page 1 of every version (`[name]`, `[affiliation]`) is a placeholder — fill it in
+before use. In the `.docx` files edit it directly; in the HTML it is marked with `class="fill"`.
 
-## Rebuilding the PDFs
+## Rebuilding
+
+Word (edit `build-docx.js`, which holds the text for both documents):
+
+```sh
+npm install          # once — pulls docx-js
+node build-docx.js   # writes both .docx files
+```
+
+PDF (edit the `.html`, which holds its own copy of the text):
 
 ```sh
 chromium --headless --disable-gpu --no-sandbox --no-pdf-header-footer \
@@ -24,7 +36,10 @@ chromium --headless --disable-gpu --no-sandbox --no-pdf-header-footer \
 ```
 
 Any Chromium build works. Japanese glyphs in the source list need a CJK font installed
-(IPAGothic is used here).
+(IPAGothic is used for the HTML).
+
+**The Word and HTML versions hold separate copies of the text.** A wording change has to be made in
+both, or one of the two formats should be dropped.
 
 ## Structure of the main report
 
