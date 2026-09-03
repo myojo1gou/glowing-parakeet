@@ -105,9 +105,10 @@ children.push(table([2400, 7238], null, [
   ['氏名', '　'],
   ['経費区分', '学内個人研究費'],
   ['品名', 'ネットワーク接続ストレージ（NAS）'],
-  ['型番', 'UGREEN NASync DXP4800 Plus（4ベイ／ディスクレス）'],
+  ['型番', 'UGREEN NASync DXP4800 Plus（DXP4800PLUS／4ベイ・ディスクレスモデル）'],
   ['数量', '1台（本体のみ）'],
-  ['見積金額', '　　　　　　　円（本体のみ。内訳は「7. 経費内訳」参照）'],
+  ['見積金額', '94,930円（税込）　※税別 86,300円＋消費税 8,630円'],
+  ['見積業者', '双葉工機株式会社（見積書第44602号・2026年8月25日付）'],
 ], { labelFill: true }));
 
 // 1
@@ -172,7 +173,7 @@ children.push(new Paragraph({
   spacing: { after: 100, line: 290, lineRule: 'auto' },
   indent: { firstLine: SIZE * 10 },
   children: [
-    new TextRun({ text: '同等仕様（x86系CPU・10GbE・4ベイ・メモリ増設可）の他社製NASは、本体のみで15万円〜20万円程度となる場合が多い。本機種の国内実勢価格は9万円台〜10万円程度であり、', font: MINCHO, size: SIZE }),
+    new TextRun({ text: '同等仕様（x86系CPU・10GbE・4ベイ・メモリ増設可）の他社製NASは、本体のみで15万円〜20万円程度となる場合が多い。本申請の見積額は94,930円（税込）であり、', font: MINCHO, size: SIZE }),
     new TextRun({ text: '必要な仕様を満たす選択肢の中で最も低廉な部類に属する', font: MINCHO, size: SIZE, bold: true }),
     new TextRun({ text: '。', font: MINCHO, size: SIZE }),
   ],
@@ -214,19 +215,25 @@ children.push(h1('7. 経費内訳'));
 children.push(table([1900, 3138, 900, 1850, 1850],
   ['品目', '仕様', '数量', '単価', '金額'],
   [
-    ['NAS本体', 'UGREEN NASync DXP4800 Plus（4ベイ）', '1台', '', ''],
-    ['合計', '', '', '', ''],
+    ['NAS本体', 'UGREEN NASync DXP4800 Plus（4ベイ・ディスクレスモデル、型番 DXP4800PLUS）', '1台', '86,300円', '86,300円'],
+    ['消費税', '10%', '—', '—', '8,630円'],
+    ['合計（税込）', '—', '—', '—', '94,930円'],
   ], { centerCols: [2, 3, 4], totalRow: true }));
 children.push(spacer(120));
 children.push(new Paragraph({
   spacing: { after: 60, line: 280, lineRule: 'auto' },
   indent: { left: SIZE * 10, hanging: SIZE * 10 },
-  children: [new TextRun({ text: '※ 本申請は本体のみの購入であり、内蔵HDD等の記録媒体は本申請に含まない。', font: MINCHO, size: 19 })],
+  children: [new TextRun({ text: '※ 双葉工機株式会社 見積書第44602号（2026年8月25日付）による。', font: MINCHO, size: 19 })],
 }));
 children.push(new Paragraph({
   spacing: { after: 60, line: 280, lineRule: 'auto' },
   indent: { left: SIZE * 10, hanging: SIZE * 10 },
-  children: [new TextRun({ text: '※ 記録媒体については既存の資産を用いて運用する。', font: MINCHO, size: 19 })],
+  children: [new TextRun({ text: '※ 本申請は本体のみの購入であり、内蔵HDD／SSD等の記録媒体は本申請に含まない。記録媒体については既存の資産を用いて運用する。', font: MINCHO, size: 19 })],
+}));
+children.push(new Paragraph({
+  spacing: { after: 60, line: 280, lineRule: 'auto' },
+  indent: { left: SIZE * 10, hanging: SIZE * 10 },
+  children: [new TextRun({ text: '※ 納期は約1〜2週間。搬入・設置・調整費等は見積に含まれていない。', font: MINCHO, size: 19 })],
 }));
 
 // 8
