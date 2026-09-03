@@ -1,10 +1,9 @@
 const fs = require('fs');
-const path = require('path');
 const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
   WidthType, ShadingType, AlignmentType, BorderStyle, HeadingLevel,
   VerticalAlign, Footer, PageNumber, convertMillimetersToTwip,
-} = require(path.join(__dirname, 'node_modules', 'docx'));
+} = require('docx');
 
 const MINCHO = { name: 'ＭＳ 明朝', eastAsia: 'ＭＳ 明朝', ascii: 'Times New Roman', hAnsi: 'Times New Roman' };
 const GOTHIC = { name: 'ＭＳ ゴシック', eastAsia: 'ＭＳ ゴシック', ascii: 'Arial', hAnsi: 'Arial' };
@@ -107,8 +106,8 @@ children.push(table([2400, 7238], null, [
   ['経費区分', '学内個人研究費'],
   ['品名', 'ネットワーク接続ストレージ（NAS）'],
   ['型番', 'UGREEN NASync DXP4800 Plus（4ベイ／ディスクレス）'],
-  ['数量', '1式（本体1台＋内蔵HDD 4台）'],
-  ['見積金額', '　　　　　　　円（内訳は「7. 経費内訳」参照）'],
+  ['数量', '1台（本体のみ）'],
+  ['見積金額', '　　　　　　　円（本体のみ。内訳は「7. 経費内訳」参照）'],
 ], { labelFill: true }));
 
 // 1
@@ -215,22 +214,19 @@ children.push(h1('7. 経費内訳'));
 children.push(table([1900, 3138, 900, 1850, 1850],
   ['品目', '仕様', '数量', '単価', '金額'],
   [
-    ['NAS本体', 'UGREEN NASync DXP4800 Plus（4ベイ、ディスクレス）', '1台', '', ''],
-    ['内蔵HDD', 'NAS用 3.5インチHDD（　　TB）', '4台', '', ''],
-    ['増設メモリ', 'DDR5 SO-DIMM（　　GB）', '　枚', '', ''],
-    ['M.2 NVMe SSD', 'キャッシュ／作業領域用（　　TB）', '　枚', '', ''],
+    ['NAS本体', 'UGREEN NASync DXP4800 Plus（4ベイ）', '1台', '', ''],
     ['合計', '', '', '', ''],
   ], { centerCols: [2, 3, 4], totalRow: true }));
 children.push(spacer(120));
 children.push(new Paragraph({
   spacing: { after: 60, line: 280, lineRule: 'auto' },
   indent: { left: SIZE * 10, hanging: SIZE * 10 },
-  children: [new TextRun({ text: '※ 本体はディスクレス製品のため、内蔵HDDを併せて購入する必要がある。', font: MINCHO, size: 19 })],
+  children: [new TextRun({ text: '※ 本申請は本体のみの購入であり、内蔵HDD等の記録媒体は本申請に含まない。', font: MINCHO, size: 19 })],
 }));
 children.push(new Paragraph({
   spacing: { after: 60, line: 280, lineRule: 'auto' },
   indent: { left: SIZE * 10, hanging: SIZE * 10 },
-  children: [new TextRun({ text: '※ RAID5構成により、実効容量は　　TB程度となる見込みである。', font: MINCHO, size: 19 })],
+  children: [new TextRun({ text: '※ 記録媒体については既存の資産を用いて運用する。', font: MINCHO, size: 19 })],
 }));
 
 // 8
