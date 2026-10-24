@@ -168,8 +168,8 @@ S[1] = [
          name="Deck subtitle"),
     shape(1.07, 4.48, 11.19, 0.78, None, name="Author panel", fill=WHITE, alpha=82),
     text(1.25, 4.55, 7.4, 0.65,
-         [para([R("[Presenter name]", 15, NAVY, b=True), R("  ·  [Affiliation]", 15, INK)], spcAft=2),
-          para([R("[Co-author names and affiliations]", 12.5, GREY)], spcAft=0)],
+         [para([R("Shin Suzuki", 15, NAVY, b=True), R("  ·  Senior Lecturer, Faculty of Economics, Fukuyama University", 15, INK)], spcAft=2),
+          para([R("s.suzuki@fukuyama-u.ac.jp", 12.5, GREY)], spcAft=0)],
          name="Authors", anchor="ctr"),
     text(8.7, 4.55, 3.45, 0.65,
          [para([R("36th RESER International Conference", 12.5, NAVY, b=True)], algn="r", spcAft=2),
@@ -579,9 +579,9 @@ S[14] = title("Central finding") + [
     ], inset=(0.25, 0.2, 0.25, 0.18), anchor="ctr"),
     card(0.55, 4.3, 5.1, 2.5, [
         para([R("Thank you", 20, GREEN, b=True)], spcAft=8),
-        para([R("[Presenter name]", 14, NAVY, b=True)], spcAft=2),
-        para([R("[Affiliation]", 13, INK)], spcAft=2),
-        para([R("[e-mail address]", 13, INK)], spcAft=10),
+        para([R("Shin Suzuki", 14, NAVY, b=True)], spcAft=2),
+        para([R("Senior Lecturer, Faculty of Economics, Fukuyama University", 13, INK)], spcAft=2),
+        para([R("s.suzuki@fukuyama-u.ac.jp", 13, INK)], spcAft=10),
         para([R("Full paper, Table I and Appendix A (15 records) available on request.", 11.5, GREY, i=True)], spcAft=0),
     ], inset=(0.25, 0.2, 0.25, 0.15)),
     card(5.85, 4.3, 6.9, 2.5, [
